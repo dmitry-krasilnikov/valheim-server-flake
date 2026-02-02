@@ -103,10 +103,12 @@ $ journalctl -u valheim -f
 Because BepInEx (the mod framework used by just about every Valheim mod) must both be installed in-tree with Valheim, and to be able to write to various files in the directory tree, we cannot run the modded Valheim server from the Nix store.  To work around this without completely giving up on immutability, we copy the files out of the Nix store to a directory under `/var/lib/valheim` and run from there, but wipe and rebuild this directory on each launch.
 
 ## Updating the server
-When a new Valheim Dedicated server version becomes available [here](https://steamdb.info/depot/896661/manifests/) take the **ManifestID** and update the `manifestId` parameter to `mkDerivation` function in ./pkgs/valheim-server/default.nix.
+When a new Valheim Dedicated server version becomes available [here](https://steamdb.info/depot/896661/manifests/) take the **ManifestID** and update the `manifestId` parameter to `mkDerivation` function in `./pkgs/valheim-server/default.nix`.
 
 Next, the `hash` will need to be updated too. Try building a new NixOS configuration with:
 
-  nix build ./#nixosConfigurations.<configurationName>.config.system.build.vm --override-input valheim-server "path:<absolute_path_to_valheim-server_repo"
+```sh
+$ nix build ./#nixosConfigurations.<configurationName>.config.system.build.vm --override-input valheim-server "path:<absolute_path_to_valheim-server_repo>"
+```
 
 The build will fail with a **hash** mismatch, grab the hash and update it in the same `mkDerivation` function call. Test that the server works by running the VM and connecting to the server. The valheim-server Flake's update can now be committed and published after which the NixOS configuration Flake using this Flake can be locked and deployed.
