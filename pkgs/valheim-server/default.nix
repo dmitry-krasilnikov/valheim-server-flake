@@ -41,6 +41,7 @@ stdenv.mkDerivation (finalAttrs: {
     changelog = "https://store.steampowered.com/news/app/892970?updates=true";
     sourceProvenance = with sourceTypes; [ binaryBytecode binaryNativeCode ];
     license = licenses.unfree;
+    # TODO: change maintainer
     maintainers = with maintainers; [aidalgol];
     platforms = ["x86_64-linux"];
   };

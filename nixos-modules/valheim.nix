@@ -158,6 +158,7 @@ in {
         serviceConfig = {
           Type = "exec";
           User = "valheim";
+          # TODO: check out nographics flag
           ExecStart = 
             lib.strings.concatStringsSep " " ([
                 "${pkgs.valheim-server}/bin/valheim-server"
