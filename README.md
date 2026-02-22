@@ -97,7 +97,7 @@ $ journalctl -u valheim -f
 Because BepInEx (the mod framework used by just about every Valheim mod) must both be installed in-tree with Valheim, and to be able to write to various files in the directory tree, we cannot run the modded Valheim server from the Nix store.  To work around this without completely giving up on immutability, we copy the files out of the Nix store to a directory under `/var/lib/valheim` and run from there, but wipe and rebuild this directory on each launch.
 
 ## Updating the server
-When a new Valheim Dedicated server version becomes available [here](https://steamdb.info/depot/896661/manifests/) take the **ManifestID** and update the `manifestId` parameter to `mkDerivation` function in `./pkgs/valheim-server/default.nix`.
+When a new Valheim Dedicated server version becomes available [here](https://steamdb.info/depot/896661/manifests/) take the **ManifestID** and update the `manifestId` parameter to `mkDerivation` function in `./pkgs/valheim-server/default.nix`. Don't forget to set `hash` to `lib.fakeHash`, otherwise `nix` will refuse to build the new version.
 
 Next, the `hash` will need to be updated too. Try building a new NixOS configuration with:
 
